@@ -1604,10 +1604,10 @@ textarea.form-input { min-height: 120px; resize: vertical; }
   position: fixed;
   bottom: 90px;
   right: 30px;
-  width: 380px;
+  width: 340px;
   max-width: calc(100vw - 40px);
-  height: min(560px, calc(100vh - 120px));
-  max-height: calc(100vh - 120px);
+  height: min(470px, calc(100vh - 150px));
+  max-height: calc(100vh - 150px);
   border-radius: var(--radius-lg);
   background: var(--black-bg);
   border: 1px solid var(--glass-border);
@@ -1654,11 +1654,21 @@ textarea.form-input { min-height: 120px; resize: vertical; }
 }
 .masa-chat-close {
   margin-right: auto;
-  color: rgba(255,255,255,0.7);
-  font-size: 1rem;
-  transition: color 0.3s;
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.85);
+  font-size: 1.05rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.12);
+  cursor: pointer;
+  transition: all 0.3s;
 }
-.masa-chat-close:hover { color: #FFF; }
+.masa-chat-close:hover {
+  color: #FFF;
+  background: rgba(255,255,255,0.25);
+  transform: scale(1.1);
+}
 .masa-chat-body {
   flex: 1;
   min-height: 0;
@@ -1899,7 +1909,9 @@ select.form-input option {
   .hero-desc { margin: 0 auto 36px; }
   .hero-buttons { justify-content: center; }
   .hero-stats { justify-content: center; }
-  .hero-visual { display: none; }
+  .hero-visual { display: flex; margin-top: 44px; }
+  .hero-holo-frame { width: min(360px, 90vw); height: 460px; }
+  .hero-float-card { display: none; }
   .projects-grid { grid-template-columns: repeat(2, 1fr); }
   .dashboard-preview { grid-template-columns: repeat(2, 1fr); }
   .dashboard-charts { grid-template-columns: 1fr; }
@@ -1925,6 +1937,7 @@ select.form-input option {
 @media (max-width: 640px) {
   section { padding: 60px 20px; }
   .navbar { padding: 0 16px; }
+  .hero-holo-frame { width: min(300px, 88vw); height: 400px; }
   .projects-grid { grid-template-columns: 1fr; }
   .blog-grid { grid-template-columns: 1fr; }
   .dashboard-preview { grid-template-columns: 1fr; }
@@ -3674,6 +3687,14 @@ function toggleMasaChat() {
   masaOpen = !masaOpen;
   document.getElementById('masa-chat').classList.toggle('open', masaOpen);
 }
+
+// إغلاق الدردشة بسهولة: النقر خارجها أو زر ESC
+document.addEventListener('click', (e) => {
+  if (masaOpen && !e.target.closest('.masa-chat') && !e.target.closest('.masa-trigger')) toggleMasaChat();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && masaOpen) toggleMasaChat();
+});
 
 function pricesOffer() {
   const p1 = formatPrice(4200000), p2 = formatPrice(6800000);
